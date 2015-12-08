@@ -132,15 +132,16 @@
     [self hideButtonsAnimated:NO];
 }
 
+// 点击主按钮的按钮转换
 - (void) toggleMainButton
 {
     UIButton *animateTo;
     UIButton *animateFrom;
-    if (_toggled) {
+    if (_toggled) {// 已展开
         animateTo = [self button];
         animateFrom = [self toggledButton];
     }
-    else {
+    else {// 未展开
         animateTo = [self toggledButton];
         animateFrom = [self button];        
     }
@@ -150,16 +151,17 @@
     }];
 }
 
+// 点击弹出按钮时，放大一定倍数
 - (void) explode:(id)sender
 {
     if (! _explode) return;
     UIView *view = (UIView*)sender;
     CGAffineTransform scale = CGAffineTransformMakeScale(5.0f, 5.0f);
     CGAffineTransform unScale = CGAffineTransformMakeScale(1.0f, 1.0f);
-    [UIView animateWithDuration:0.3 animations:^{
+    [UIView animateWithDuration:0.3 animations:^{// 动画开始
         [view setAlpha:0.0f];
         [view setTransform:scale];
-    } completion:^(BOOL finished){
+    } completion:^(BOOL finished){// 动画结束
         [view setAlpha:1.0f];
         [view setTransform:unScale];
     }];
@@ -184,14 +186,14 @@
         float nearX = endX + (_horizontal ? _near : 0.0f);
         if (animated) {
             NSMutableArray *animationOptions = [NSMutableArray array];
-            if (_spin) {
+            if (_spin) {// 旋转
                 CAKeyframeAnimation *rotateAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation.z"];
                 [rotateAnimation setValues:[NSArray arrayWithObjects:[NSNumber numberWithFloat:0.0f],[NSNumber numberWithFloat:M_PI * 2], nil]];
                 [rotateAnimation setDuration:_animationTime];
                 [rotateAnimation setKeyTimes:[NSArray arrayWithObjects:[NSNumber numberWithFloat:0.0f], [NSNumber numberWithFloat:1.0f], nil]];
                 [animationOptions addObject:rotateAnimation];
             }        
-            
+            // 位置
             CAKeyframeAnimation *positionAnimation = [CAKeyframeAnimation animationWithKeyPath:@"position"];
             [positionAnimation setDuration:_animationTime];
             CGMutablePathRef path = CGPathCreateMutable();
@@ -238,7 +240,7 @@
         UIButton *button = [[self buttons] objectAtIndex:i];
         if (animated) {
             NSMutableArray *animationOptions = [NSMutableArray array];
-            if (_spin) {
+            if (_spin) {// 旋转
                 CAKeyframeAnimation *rotateAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation.z"];
                 [rotateAnimation setValues:[NSArray arrayWithObjects:[NSNumber numberWithFloat:0.0f],[NSNumber numberWithFloat:M_PI * -2], nil]];
                 [rotateAnimation setDuration:_animationTime];
